@@ -4,6 +4,8 @@ const router = express.Router();
 
 const Employee = require('../models/employeeModel');
 
+const bcrypt = require("bcryptjs");
+
 
 //register new employee
 
@@ -18,17 +20,22 @@ router.post("/register", async (req, res) => {
                 success: false,
             });
         }
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword= await bcrypt.hash(req.body.password.salt);
+        req.body.password =hashedPassword;
 
-        const newEmployee = new Employee(req.body)
+        const newEmployee = new Employee(req.body);
         await newEmployee.save();
         res.status(200).send({
-            message: "Registartion Successful,Please wait for admin Approval",
+            message: "Registration Successful,Please wait for admin Approval",
             success: true,
         });
     } catch (error) {
         res.status(500).send({
             message: error.message,
-            success: false
+            success: false,
         })
     }
 })
+
+module.exports = router
