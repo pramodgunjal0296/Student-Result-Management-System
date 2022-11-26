@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 
-import {configureStore} from '@reduxjs/toolkit'
+import {configureStore} from '@reduxjs/toolkit';
 
 import { alertSlice } from './alerts';
 
@@ -13,5 +13,4 @@ const store =configureStore({
     reducer:rootReducer,
 
 });
-
 export default store;
