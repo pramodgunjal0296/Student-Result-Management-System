@@ -9,6 +9,7 @@ import './styles/layout.css'
 import { useSelector } from 'react-redux';
 import Spinner from './components/Spinner';
 import {Toaster} from 'react-hot-toast'
+import EmployeeHome from './pages/employees/EmployeeHome';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/employeeHome" element={<EmployeeHome/>}/>
         </Routes>
       </BrowserRouter>
     </div>
