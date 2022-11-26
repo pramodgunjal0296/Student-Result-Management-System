@@ -1,12 +1,23 @@
 import { Form,Input } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 
 const Login = () => {
 
-    const onFinish=(values)=>{
-        console.log(values)
+    const onFinish=async(values)=>{
+        try {
+            const response = await axios.post(process.env.REACT_APP_BASE_URL+"/api/employee/login",values)
+            if(response.data.success){
+               alert(response.data.message);
+               localStorage.setItem("token",response.data.data)
+            }else{
+               alert(response.data.message);
+            }
+          } catch (error) {
+           alert(error.message);
+          }
 
     }
   return (
@@ -18,7 +29,7 @@ const Login = () => {
                 <Input/>
             </Form.Item>
             <Form.Item name='password' label='Password'>
-                <Input/>
+                <Input type='password'/>
             </Form.Item>
             
             <button className='primary text-white px-5 my-2 w-100'>Login</button>

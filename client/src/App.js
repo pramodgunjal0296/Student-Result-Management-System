@@ -6,11 +6,20 @@ import Register from './pages/employees/Register';
 import Home from './pages/Home';
 import './styles/theme.css';
 import './styles/layout.css'
+import { useSelector } from 'react-redux';
+import Spinner from './components/Spinner';
+import {Toaster} from 'react-hot-toast'
 
 
 function App() {
+
+  const { loading } = useSelector(state =>state.alert);
+
+ 
   return (
     <div className="App">
+      {loading && <Spinner/>}
+      <Toaster/>
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />} />
