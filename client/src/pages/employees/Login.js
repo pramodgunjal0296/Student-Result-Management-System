@@ -2,21 +2,31 @@ import { Form,Input } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { HideLoading, ShowLoading } from '../../redux/alerts'
+import {useDispatch }from 'react-redux';
+import toast from 'react-hot-toast'
 
 
 const Login = () => {
 
+    const dispatch = useDispatch();
+
     const onFinish=async(values)=>{
         try {
+
+           dispatch(ShowLoading())
             const response = await axios.post(process.env.REACT_APP_BASE_URL+"/api/employee/login",values)
+           dispatch(HideLoading())
             if(response.data.success){
-               alert(response.data.message);
+               toast.success(response.data.message)
                localStorage.setItem("token",response.data.data)
             }else{
-               alert(response.data.message);
+                toast.error(response.data.message);
+               
             }
           } catch (error) {
-           alert(error.message);
+            dispatch(HideLoading())
+            toast.error(error.message);
           }
 
     }

@@ -18,7 +18,7 @@ function App() {
  
   return (
     <div className="App">
-      {loading && <Spinner/>}
+      {loading ? <Spinner/> : null}
       <Toaster/>
       <BrowserRouter>
         <Routes>
