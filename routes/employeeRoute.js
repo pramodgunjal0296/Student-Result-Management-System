@@ -6,7 +6,8 @@ const Employee = require('../models/employeeModel');
 
 const bcrypt = require("bcryptjs");
 
-const jwt= require("jsonwebtoken")
+const jwt= require("jsonwebtoken");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 
 //register new employee
@@ -82,5 +83,32 @@ router.post("/login", async (req, res) => {
 }
 );
 
+// get Employee By Id
+
+router.post('/get-employee-by-id',authMiddleware,async(req, res) => {
+try {
+    console.log(req.body)
+    const employee = await Employee.findOne({
+        _id:req.body.employeeId,
+    });
+    if(!employee){
+        return res.status(200).send({
+            message:'Employee not found',
+            success:false,
+        });
+    }
+    employee.password = undefined;
+    res.status(200).send({
+        message:'Employee found',   
+        success:true,
+        data:employee,
+    });
+} catch (error) {
+    rex.status(500).send({
+        message:error.message,
+        success:false,
+    });
+}
+});
 
 module.exports = router;

@@ -14,3 +14,22 @@
     height:200px;
     width:200px;
 }
+
+.layout{
+    padding: 15px;
+}
+
+.header{
+    background-color: var(--primary);
+    padding: 10px;
+    border-radius: 5px;
+}
+.content{
+    margin-top: 15px;
+    padding:10px;
+    box-shadow:0 0 2px rgba(0,0,0,0.653);
+    border:1px solid gray;
+    border-radius:5px;
+    height: 85vh;
+    overflow-y: scroll;
+}

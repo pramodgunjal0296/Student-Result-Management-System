@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/pramodgunjal0296/Student-Result-Management-System#readme",
   "dependencies": {
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.10.16",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
