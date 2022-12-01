@@ -109,6 +109,6 @@ try {
         success:false,
     });
 }
-});
+}),
 
 module.exports = router;

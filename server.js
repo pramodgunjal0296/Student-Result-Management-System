@@ -4,9 +4,12 @@ const app = express()
 app.use(cors())
 const dotenv=require('dotenv')
 dotenv.config()
-console.log("config console")
 const dbConfig=require('./config/dbConfig')
 dbConfig();
+app.use( (req, res, next) => {
+    console.log("url : "+req.url)
+    next();
+});
 app.use(express.json());
 const employeeRoute = require("./routes/employeeRoute")
 

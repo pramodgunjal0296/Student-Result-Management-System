@@ -11,21 +11,22 @@ const ProtectedRoute = () => {
         try {
             dispatch(ShowLoading());
             const token = localStorage.getItem('token');
-            dispatch(HideLoading());
-            const response = await axios.post('/api/employee/get-employee-by-id',
-             {},
+                 dispatch(HideLoading());
+            const response = await axios.post(
+                process.env.REACT_APP_BASE_URL+`/api/employee/get-employee-by-id`,
+             {employeeId:3},
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer-${token}`,
                     },
                 }
             );
             if (response.data.success) {
-                console.log(response.data.data)
+                console.log(response.data.data);
             }
         } catch (error) {
             dispatch(HideLoading());
-            toast.error('Something went wrong')
+            toast.error('Something went wrong');
         }
     }
 
