@@ -11,6 +11,7 @@ import Spinner from './components/Spinner';
 import { Toaster } from 'react-hot-toast'
 import EmployeeHome from './pages/employees/EmployeeHome';
 import ProtectedRoute from './components/ProtectedRoute';
+import Students from './pages/employees/Students';
 
 
 function App() {
@@ -28,6 +29,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/employee" element={<ProtectedRoute><EmployeeHome /></ProtectedRoute>} />
+          <Route path="/employee/students" element={<ProtectedRoute><Students/></ProtectedRoute>} />
+
         </Routes>
       </BrowserRouter>
     </div>
