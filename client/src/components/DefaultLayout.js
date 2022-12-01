@@ -1,6 +1,9 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 function DefaultLayout(props) {
+  const {employee} = useSelector(state=>state.employee);
+  console.log(employee)
   return (
     <div className='layout'>
         <div className="header d-flex justify-content-between align-items-center">
@@ -9,7 +12,7 @@ function DefaultLayout(props) {
             <b className='secondary-text'>Computer Science Department </b>   
             Results {" "}
             </h1>
-            <h1 className='text-white text-medium'>Employee</h1>
+            <h1 className='text-white text-medium'>{employee?.name}</h1>
         </div>
         <div className="content">
             {props.children}

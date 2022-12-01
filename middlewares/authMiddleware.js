@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
         req.body.employeeId = decoded.employeeId;
         next();
     } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
         return res.status(500).send({ message: 'Access deneid.Invalid token.', success: false });
     }
 

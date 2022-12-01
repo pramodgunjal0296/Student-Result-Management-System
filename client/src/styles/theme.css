@@ -26,9 +26,17 @@
 .black{
     background-color: #000;
 }
+/*border colors*/
+.primary-border{
+    border:2px solid var(--primary);
+  
+}
+.secondary-border{
+    border:2px solid var(--secondary);
+}
 /*text sizes*/
 .text-small{
-    font-size: 16px;
+    font-size: 16px;    
 }
 .text-medium{
     font-size: 24px;
@@ -46,6 +54,12 @@
 .w-400{
     width:400px;
 }
+.w-300{
+    width:300px;
+}
+.w-200{
+    width:200px;
+}   
 /*cards*/
 .card-md{
     box-shadow: 0 0 1px rgba(0,0,0,0.1);
@@ -57,6 +71,9 @@
 
 /*html element*/
 
+.cursor-pointer{
+    cursor:pointer;
+}
 
 input{
     border-radius: 0;

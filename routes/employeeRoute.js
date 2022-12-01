@@ -104,6 +104,7 @@ try {
         data:employee,
     });
 } catch (error) {
+    console.log(error.message)
     rex.status(500).send({
         message:error.message,
         success:false,
