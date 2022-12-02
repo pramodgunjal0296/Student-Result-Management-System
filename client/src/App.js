@@ -12,6 +12,7 @@ import { Toaster } from 'react-hot-toast'
 import EmployeeHome from './pages/employees/EmployeeHome';
 import ProtectedRoute from './components/ProtectedRoute';
 import Students from './pages/employees/Students';
+import AddStudent from './pages/employees/AddStudent';
 
 
 function App() {
@@ -30,7 +31,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/employee" element={<ProtectedRoute><EmployeeHome /></ProtectedRoute>} />
           <Route path="/employee/students" element={<ProtectedRoute><Students/></ProtectedRoute>} />
-
+          <Route path="/employee/students/add" element={<ProtectedRoute><AddStudent/></ProtectedRoute>} />
+         
         </Routes>
       </BrowserRouter>
     </div>

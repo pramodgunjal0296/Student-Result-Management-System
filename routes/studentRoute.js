@@ -1,0 +1,102 @@
+const express =require("express");
+const authMiddleware = require("../middlewares/authMiddleware");
+const router = express.Router();
+const Student =required('../models/StudentModel');
+
+// add new student
+router.post("/add-student",authMiddleware, async (req, res) => {
+    try {
+        const StudentExists = await Student.findOne({
+             rollNo: req.body.rollNo,
+             });
+        if (StudentExists) {
+            return res.status(200).send({
+                message: "Student already exists",
+                success: false,
+            });
+        }
+        const newStudent = new Student(req.body);
+        await newStudent.save();
+        res.status(200).send({
+            message: "Student added Successfully",
+            success: true,  
+        });
+    } catch (error) {
+        res.status(500).send({
+            message: error.message,
+            success: false,
+        })
+    }
+});
+
+// get all students
+router.get("/get-students",authMiddleware,async(req,res)=>{
+    try {
+        const students = await Student.findOne({});
+        res.status(200).send({
+            message: "Student Fetched Successfully",
+            success: true,  
+            data:students,
+        });
+    } catch (error) {
+        res.status(500).send({
+            message: error.message,
+            success: false,
+        });
+    }
+})
+
+//get student by roll no 
+router.get('/get-student/:rollNo',authMiddleware,async(req, res) => {
+    try {
+        const student =await Student.findOne({
+            rollNo:req.params.rollNo,
+        });
+        if (!student) {
+            res.send({
+                message:"Student not found",
+                success:false,
+            })  
+        }
+        res.status(200).send({
+            message:"Student Fetched Successfully",
+            success:true,
+            data:student,
+        });
+        
+    } catch (error) {
+        res.status(500).send({
+            message:error.message,
+            success:false,
+        });
+        
+    }
+
+});
+
+//update student
+router.put("/update/student/:rollNo",authMiddleware,async(req,res)=>{
+    try {
+        const Student = await Student.findOneAndUpdate(
+            {rollNo: req.params.rollNo},
+            req.body,
+            { new:true} 
+            );
+        if (!Student) {
+            res.send({
+                message:"Student Not Found",
+                success:false
+            });
+        }
+        res.status(200).send({
+            message: "Student updated Successfully",
+            success: true,  
+            data:Student
+        });
+    } catch (error) {
+        res.status(500).send({
+            message: error.message,
+            success: false,
+        })
+    }
+})
