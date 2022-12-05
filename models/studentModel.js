@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const StudentSchema = new mongoose.Schema({
-    fileName: {
+    firstName: {
         type: String,
         required: true,
     },

@@ -1,6 +1,6 @@
-import { Col, Form, Input, Row } from 'antd'
+import { Col, Form , Row } from 'antd'
 import axios from 'axios';
-import React from 'react'
+import React from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { HideLoading, ShowLoading } from '../redux/alerts';
@@ -9,24 +9,31 @@ function StudentForm() {
     const dispatch = useDispatch();
     const onFinish=async(values)=>{
         try {
-         dispatch(ShowLoading())
-          const response = await axios.post(process.env.REACT_APP_BASE_URL+"/api/students/add-student",values)
+         dispatch(ShowLoading());
+          const response = await axios.post(process.env.REACT_APP_BASE_URL+"/api/students/add-student",
+          values,{
+            headers:{
+                Authorization:`Bearer ${localStorage.getItem("token")}`
+            }
+          });
           dispatch(HideLoading())
           if(response.data.success){
-             toast.success(response.data.messsage)
-             localStorage.setItem("token",response.data.data)
+             toast.success(response.data.messsage);
+             localStorage.setItem("token",response.data.data);
           }else{
             toast.error(response.data.message);
+
           }
         } catch (error) {
-        dispatch(HideLoading())
+            console.log(error.message);
+        dispatch(HideLoading());
         toast.error(error.message);
         }
  
      }
   return (
     <div>
-        <input type="text"/>
+      
         <Form layout='vertical' onFinish={onFinish}>
         <Row gutter={[10,10]}>
             <Col span={8}>
@@ -68,7 +75,6 @@ function StudentForm() {
         </Row>
         <div className='d-flex justify-content-end mt-2'>
             <button className='primary text-white px-5-3'>Save</button>
-
         </div>
 
         </Form>

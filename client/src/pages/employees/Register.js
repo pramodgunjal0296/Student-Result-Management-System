@@ -23,6 +23,7 @@ const Register = () => {
            toast.error(response.data.message);
          }
        } catch (error) {
+        console.log(error.message)
        dispatch(HideLoading())
        toast.error(error.message)
        }
@@ -33,7 +34,7 @@ const Register = () => {
         <Form layout='vertical w-400 white p-4' onFinish={onFinish}>
             <h1 className='text-medium'>Employee-Registration</h1>
             <hr />
-            <Form.Item name='name' label='Name'>
+            <Form.Item name='name' label='Name'>  
                 <Input/>
             </Form.Item>
             <Form.Item name='employeeId' label='Employee ID'>
