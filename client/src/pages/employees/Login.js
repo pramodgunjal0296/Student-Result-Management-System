@@ -1,6 +1,6 @@
 import { Form,Input } from 'antd'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { HideLoading, ShowLoading } from '../../redux/alerts'
 import {useDispatch }from 'react-redux';
@@ -10,6 +10,7 @@ import toast from 'react-hot-toast'
 const Login = () => {
 
     const dispatch = useDispatch();
+    const naviagate=useNavigate();
 
     const onFinish=async(values)=>{
         try {
@@ -19,7 +20,8 @@ const Login = () => {
            dispatch(HideLoading())
             if(response.data.success){
                toast.success(response.data.message)
-               localStorage.setItem("token",response.data.data)
+               localStorage.setItem("token",response.data.data);
+               naviagate("/employee");
             }else{
                 toast.error(response.data.message);
                

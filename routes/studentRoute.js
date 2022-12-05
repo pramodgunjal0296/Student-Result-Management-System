@@ -30,7 +30,7 @@ router.post("/add-student", async (req, res) => {
 });
 
 // get all students
-router.get("/get-students",authMiddleware,async(req,res)=>{
+router.post("/get-all-students",authMiddleware,async(req,res)=>{
     try {
         const students = await Student.findOne({});
         res.status(200).send({

@@ -20,7 +20,7 @@ function StudentForm() {
           if(response.data.success){
             
              toast.success("Student Added Successfully",response.data.messsage);
-             localStorage.setItem("token",response.data.data);
+            //  localStorage.setItem("token",response.data.data);
           }else{
             toast.error(response.data.message);
 
