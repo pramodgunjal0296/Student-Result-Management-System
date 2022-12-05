@@ -14,7 +14,7 @@ app.use(express.json());
 const employeeRoute = require("./routes/employeeRoute");
 app.use("/api/employee/",employeeRoute);
 const studentRoute = require("./routes/studentRoute");
-app.use("/api/employee/student",studentRoute);
+app.use("/api/students/",studentRoute);
 
 
 const port = process.env.PORT || 9898

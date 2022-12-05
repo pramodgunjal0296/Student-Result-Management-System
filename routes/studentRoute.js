@@ -4,7 +4,7 @@ const router = express.Router();
 const Student =require('../models/studentModel');
 
 // add new student
-router.post("/add-student",authMiddleware, async (req, res) => {
+router.post("/add-student", async (req, res) => {
     try {
         const StudentExists = await Student.findOne({
              rollNo: req.body.rollNo,
