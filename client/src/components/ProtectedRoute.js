@@ -5,11 +5,13 @@ import { useDispatch } from 'react-redux'
 import { ShowLoading, HideLoading } from '../redux/alerts'
 import { setEmployee } from '../redux/employees'
 import DefaultLayout from '../components/DefaultLayout'
+import { useNavigate } from 'react-router-dom'
 
 const ProtectedRoute = (props) => {
 
     const [readyToRednder,setReadyToRednder]=useState(false);   
     const dispatch = useDispatch();
+    const navigate=useNavigate();
 
     const getEmployeeData = async() => {
         try {
@@ -17,7 +19,7 @@ const ProtectedRoute = (props) => {
             const token = localStorage.getItem('token');
                  dispatch(HideLoading());
             const response = await axios.post(process.env.REACT_APP_BASE_URL+`/api/employee/get-employee-by-id`,
-            {employeeId:3},
+            {employeeId:token},
                 {
                     headers: {
                         Authorization: `Bearer-${token}`,
@@ -32,7 +34,7 @@ const ProtectedRoute = (props) => {
         } catch (error) {
             console.log(error.message)
             dispatch(HideLoading());
-            toast.error('Something went wrong');
+            navigate("/login")
         }
     }
 

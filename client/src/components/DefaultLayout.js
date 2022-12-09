@@ -1,8 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 function DefaultLayout(props) {
   const {employee} = useSelector(state=>state.employee);
+  const navigate= useNavigate();
   console.log(employee)
   return (
     <div className='layout'>
@@ -13,6 +15,10 @@ function DefaultLayout(props) {
             Results {" "}
             </h1>
             <h1 className='text-white text-medium'>{employee?.name}</h1>
+            <h1 className='text-white text-small cursor-pointer'onClick={()=>{
+              localStorage.removeItem("token")
+              navigate("/login")
+            }}>LogOut</h1>
         </div>
         <div className="content">
             {props.children}

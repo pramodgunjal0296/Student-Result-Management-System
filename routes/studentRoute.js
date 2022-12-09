@@ -3,6 +3,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
 const router = express.Router();
 const Student =require('../models/studentModel');
 
+
 // add new student
 router.post("/add-student", async (req, res) => {
     try {
@@ -30,9 +31,10 @@ router.post("/add-student", async (req, res) => {
 });
 
 // get all students
-router.post("/get-all-students",authMiddleware,async(req,res)=>{
+router.get("/get-all-students",authMiddleware,async(req,res)=>{
     try {
-        const students = await Student.findOne({});
+        const students = await Student.find({
+        });
         res.status(200).send({
             message: "Student Fetched Successfully",
             success: true,  
@@ -47,8 +49,8 @@ router.post("/get-all-students",authMiddleware,async(req,res)=>{
     }
 });
 
-//get student by roll no 
-router.get('/get-student/:rollNo',authMiddleware,async(req, res) => {
+//get student by roll no for edit
+router.get('/get-student/:rollNo', authMiddleware,async(req, res) => {
     try {
         const student =await Student.findOne({
             rollNo:req.params.rollNo,
@@ -77,24 +79,27 @@ router.get('/get-student/:rollNo',authMiddleware,async(req, res) => {
 });
 
 //update student
-router.put("/update/student/:rollNo",authMiddleware,async(req,res)=>{
+router.post("/update-student/:rollNo",authMiddleware,async(req,res)=>{
     try {
-        const Student = await Student.findOneAndUpdate(
+        const student = await Student.findOneAndUpdate(
             {rollNo: req.params.rollNo},
             req.body,
             { new:true} 
             );
-        if (!Student) {
+        if (!student) {
             return res.send({
                 message:"Student Not Found",
                 success:false
             });
         }
+        console.log(res);
         res.status(200).send({
             message: "Student updated Successfully",
             success: true,  
-            data:Student
-        });
+            data:student
+        }
+       
+        );
     } catch (error) {
         console.log(error.message)
         res.status(500).send({
@@ -107,11 +112,11 @@ router.put("/update/student/:rollNo",authMiddleware,async(req,res)=>{
 // delete student
 router.delete('/delete-student/:rollNo',authMiddleware,async(req, res) => {
     try {
-        const Student = await Student.findOneAndDelete({
+        const student = await Student.findOneAndDelete({
             rollNo: req.params.rollNo,
         }
             );
-        if (!Student) {
+        if (!student) {
            return res.send({
                 message:"Student Not Found",
                 success:false,
@@ -120,7 +125,7 @@ router.delete('/delete-student/:rollNo',authMiddleware,async(req, res) => {
         res.status(200).send({
             message: "Student Deleted Successfully",
             success: true,  
-            data:Student
+            data:student
         });
     } catch (error) {
         console.log(error.message)

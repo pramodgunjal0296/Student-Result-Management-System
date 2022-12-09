@@ -98,6 +98,10 @@ a{
 h1{
     margin-bottom: 0 !important;
 }
+span{
+    cursor:pointer;
+    font-size:22px;
+}
 
 /* antd override*/
 .ant-form-item{
