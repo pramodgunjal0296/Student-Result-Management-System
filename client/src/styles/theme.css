@@ -103,6 +103,10 @@ span{
     font-size:22px;
 }
 
+.underline{
+    text-decoration: underline;
+}
+
 /* antd override*/
 .ant-form-item{
     margin-bottom: 5px !important;

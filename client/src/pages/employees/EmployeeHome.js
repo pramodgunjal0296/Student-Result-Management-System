@@ -18,7 +18,7 @@ function EmployeeHome() {
     </Col>
     <Col span={12}>
       <div className='p-5 secondary-border card w-300 cursor-pointer'onClick={()=>{
-         navigate("/employee/attendance");
+         navigate("/employee/results");
       }}>
         <h1>Results</h1>
       </div>
