@@ -42,8 +42,9 @@ function EditResult() {
   };
   const getStudents=async(values)=>{
     try {
+      console.log(values,`values`);
      dispatch(ShowLoading());
-      const response = await axios.get(process.env.REACT_APP_BASE_URL+`/api/students/get-all-students`,
+      const response = await axios.get(process.env.REACT_APP_BASE_URL+`/api/students/get-all-students?class=${values}`,
       {class:result.class},
       {
         headers:{
@@ -52,7 +53,6 @@ function EditResult() {
       }
       );
       dispatch(HideLoading())
-      
       if(response.data.success){
         console.log(response.data.data)
         setStudents(response.data.data);
@@ -71,7 +71,7 @@ function EditResult() {
   }, []);
   useEffect(()=>{
     if(result){
-      getStudents();
+      getStudents(result.class);
     }
   },[result])
   const columns=[
