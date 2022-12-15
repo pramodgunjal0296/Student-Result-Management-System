@@ -11,19 +11,20 @@ import {BsFillPencilFill} from 'react-icons/bs';
 
 function Results() {
 
-  const[Students,setResults]= useState([])
+  const[results,setResults]= useState([])
   const dispatch=useDispatch()
   const navigate = useNavigate();
 
   const getResults=async(values)=>{
     try {
      dispatch(ShowLoading());
-      const response = await axios.get(process.env.REACT_APP_BASE_URL+"/api/Students/get-all-Student",
+      const response = await axios.get(process.env.REACT_APP_BASE_URL+"/api/results/get-all-results",
       {
         headers:{
             Authorization:`Bearer-${localStorage.getItem("token")}`
         }
       });
+      
       dispatch(HideLoading())
       if(response.data.success){
         setResults(response.data.data);
@@ -37,10 +38,10 @@ function Results() {
     }
 
  };
- const deleteResults=async(rollNo)=>{
+ const deleteResults=async(resultId)=>{
   try {
    dispatch(ShowLoading());
-  const response = await axios.delete(process.env.REACT_APP_BASE_URL+`/api/Students/delete-student/${rollNo}`,
+  const response = await axios.delete(process.env.REACT_APP_BASE_URL+`/api/results/delete-result/${resultId}`,
     {
       headers:{
           Authorization:`Bearer-${localStorage.getItem("token")}`
@@ -65,34 +66,19 @@ function Results() {
  },[])
   const column=[
     {
+      title:"Examination",
+      dataIndex:"examination",
+      key:"examination",
+    },
+    {
       title:'Class',
       dataIndex:'class',
       key:'class',
     },
     {
-      title:'Roll No',
-      dataIndex:'rollNo',
-      key:'rollNo',
-    },
-    {
-      title:'First Name',
-      dataIndex:'firstName',
-      key:'firstName',
-    },
-    {
-      title:'last Name',
-      dataIndex:'lastName',
-      key:'lastName',
-    },
-    {
-      title:"Email",
-      dataIndex:"email",
-      key:"email",
-    },
-    {
-      title:"Phone Number",
-      dataIndex:"phoneNumber",
-      key:"phoneNumber",
+      title:"Date",
+      dataIndex:"date",
+      key:"date",
     },
     {
       title:"Action",
@@ -100,10 +86,10 @@ function Results() {
       render:(text,record)=>(
         <div className='d-flex gap-3'>
           <span onClick={()=>{
-            deleteResults(record.rollNo)
+            deleteResults(record.resultId)
           }}><AiFillDelete/>  </span>
           <span onClick={()=>{
-            navigate(`/employee/results/edit/${record.rollNo}`)
+            navigate(`/employee/results/edit/${record._id}`)
           }}><BsFillPencilFill/></span>
         </div>
       )
@@ -120,7 +106,7 @@ function Results() {
         }}>Add Result </button>
 
       </div>
-      <Table columns={column} dataSource={Students}/>
+      <Table columns={column} dataSource={results}/>
     </div>
   )
 }

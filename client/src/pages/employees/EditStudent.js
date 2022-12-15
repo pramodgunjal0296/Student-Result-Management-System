@@ -2,16 +2,16 @@ import axios from 'axios';
 import React, { useState,useEffect } from 'react'
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import PageTitle from '../../components/PageTitle';
 import StudentForm from '../../components/StudentForm';
 import { HideLoading, ShowLoading } from '../../redux/alerts';
 
-function EditStudent() {
 
+function EditStudent() {
   const[student,setStudent]=useState(null);
   const dispatch =useDispatch();
-
+  const navigate=useNavigate()
   const params=useParams();
   const getStudent=async(values)=>{
     try {

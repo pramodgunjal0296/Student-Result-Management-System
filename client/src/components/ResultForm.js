@@ -1,14 +1,37 @@
 import React from 'react'
 import { Form, Row, Col, Space, Input} from 'antd'
 import {AiFillDelete} from 'react-icons/ai'
+import axios from 'axios'
+import {useDispatch, useSelector} from 'react-redux'
+import {toast} from 'react-hot-toast'
+import{ShowLoading,HideLoading} from '../redux/alerts'
+import {useNavigate} from 'react-router-dom'
+
 function ResultForm() {
+    const {employee} =useSelector((state)=>state.employee);
 
-
-    const onFinish=(values)=>{
+    const navigate =useNavigate();
+    const dispatch=useDispatch();
+    const onFinish=async(values)=>{
+      values.createdBy = employee._id;
         try {
-        console.log(values);
+          dispatch(ShowLoading())
+        const response=await axios.post(process.env.REACT_APP_BASE_URL+`/api/results/add-result`,values,{
+          headers:{
+            Authorization:`Bearer-${localStorage.getItem("token")}`,
+          },
+         });
+         dispatch(HideLoading())
+         if(response.data.success){
+          toast.success(response.data.message);
+          navigate(-1);
+         }else{
+          toast.error(response.data.message);
+         }
         } catch (error) {
-          
+          console.log(error.message);
+          dispatch(HideLoading());
+          toast.error(error.message);
         }
  
      }
