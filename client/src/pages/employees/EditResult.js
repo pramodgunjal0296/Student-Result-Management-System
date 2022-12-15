@@ -8,7 +8,7 @@ import PageTitle from "../../components/PageTitle";
 import { HideLoading, ShowLoading } from "../../redux/alerts";
 
 function EditResult() {
-  const [showStudentsModal, setShowStudentsModal] = useState([false, 0]);
+  const [showStudentsModal, setShowStudentsModal] = useState(false);
   const [students, setStudents] = useState([]);
   const [result, setResult] = useState([]);
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ function EditResult() {
       dispatch(ShowLoading());
       const response = await axios.get(
         process.env.REACT_APP_BASE_URL +
-          `/api/results/get-result/${params.resultId}`,
+        `/api/results/get-result/${params.resultId}`,
         values,
         {
           headers: {
@@ -59,7 +59,7 @@ function EditResult() {
 
       const response = await axios.get(
         process.env.REACT_APP_BASE_URL +
-          `/api/students/get-all-students?class=${values}`,
+        `/api/students/get-all-students?class=${values}`,
         { class: result.class },
         {
           headers: {
@@ -71,6 +71,7 @@ function EditResult() {
       if (response.data.success) {
         console.log(response.data.data);
         setStudents(response.data.data);
+        // setShowStudentsModal([false, 0]);
       } else {
         toast.error(response.data.message);
       }
@@ -82,11 +83,6 @@ function EditResult() {
   };
   useEffect(() => {
     getResult();
-    if (showStudentsModal[0]) {
-      console.log(result, "result");
-      // getStudents((result.class = students.class));
-      getStudents(showStudentsModal[1]);
-    }
   }, []);
 
   // useEffect(() => {
@@ -128,7 +124,7 @@ function EditResult() {
             <hr />
             <h1
               className="underline cursor-pointer text-medium"
-              onClick={() => setShowStudentsModal([true, item.class])}
+              onClick={() => { getStudents(item.class); setShowStudentsModal(true); }}
             >
               Add Student
             </h1>
@@ -136,8 +132,8 @@ function EditResult() {
         ))}
       <Modal
         title="Select Student"
-        open={showStudentsModal[0]}
-        onCancel={() => setShowStudentsModal([false, 0])}
+        open={showStudentsModal}
+        onCancel={() => setShowStudentsModal(false)}
       >
         <Table columns={columns} dataSource={students} />
       </Modal>
