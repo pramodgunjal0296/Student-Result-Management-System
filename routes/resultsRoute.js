@@ -20,7 +20,7 @@ router.post("/add-result", async (req, res) => {
         await newResult.save();
         res.status(200).send({
             message: "Result Added Succesfully",
-            success:true,
+            success: true,
         });
     } catch (error) {
         res.status(500).send({
@@ -30,55 +30,91 @@ router.post("/add-result", async (req, res) => {
     }
 })
 // get all results
-router.get("/get-all-results",async(req,res)=>{
-    try{
+router.get("/get-all-results", async (req, res) => {
+    try {
         const results = await Result.find();
         res.status(200).send({
-            message:"Results Retrieved SuccessFully",
-            success:true,
-            data:results,
-        }) 
-    }catch(error){
+            message: "Results Retrieved SuccessFully",
+            success: true,
+            data: results,
+        })
+    } catch (error) {
         res.status(500).send({
-            message:error.message,
-            success:false,
+            message: error.message,
+            success: false,
         })
     }
 });
 // get result by id
-router.get("/get-result/:resultId",async(req,res)=>{
-    try{
+router.get("/get-result/:resultId", async (req, res) => {
+    try {
         console.log(req.params)
-        const result=await Result.find({_id:req.params.resultId})
+        const result = await Result.find({ _id: req.params.resultId })
         res.status(200).send({
-            message:"Result retrieved successfully",
-            success:true,
-            data:result,
+            message: "Result retrieved successfully",
+            success: true,
+            data: result,
         });
-    }catch(error){
+    } catch (error) {
         res.status(500).send({
-            message:error.message,
-            success:false,
+            message: error.message,
+            success: false,
         })
-     }
+    }
+});
+// add student result
+router.post("/add-student-result", authMiddleware, async (req, res) => {
+    try {
+        const student = await Student.findById(req.body.studentId);
+        if (!student) {
+            return res.status(200).send({
+                message: "Student not found",
+                success: false,
+            })
+        }
+        const existingResults = students.results
+        const newResults = [...existingResults, {
+            obtainedMarks: req.body.obtainedMarks,
+            resultId: req.body.resultId,
+            examination: req.body.examination,
+        },
+        ];
+        const updatedStudent = await Student.findByIdAndUpdate(
+            req.body.studentId,
+            {
+                results: newResults,
+            },
+            { new: true }
+        );
+        res.status(200).send({
+            message: "Result Added Successfully",
+            success: true,
+            data: updatedStudent,
+        });
+    } catch (error) {
+        res.status(500).send({
+            message: error.message,
+            success: false,
+        });
+    }
 });
 // delete result by id
-router.delete('/delete-result/:resultId',authMiddleware,async(req, res) => {
+router.delete('/delete-result/:resultId', authMiddleware, async (req, res) => {
     try {
         const result = await Result.findOneAndDelete({
             resultId: req.params.resultId,
         }
-            );
+        );
         if (!result) {
-           return res.send({
-                message:"Result Not Found",
-                success:false,
+            return res.send({
+                message: "Result Not Found",
+                success: false,
             });
         }
         res.status(200).send({
             message: "Result Deleted Successfully",
-            success: true,  
-            data:result
+            success: true,
+            data: result
         });
     } catch (error) {
         console.log(error.message)
@@ -90,4 +126,4 @@ router.delete('/delete-result/:resultId',authMiddleware,async(req, res) => {
 
 });
 
-(module.exports= router);
+(module.exports = router);

@@ -23,6 +23,7 @@ function DefaultLayout(props) {
             </div>
         </div>
         <div className="content">
+          
             {props.children}
 
         </div>

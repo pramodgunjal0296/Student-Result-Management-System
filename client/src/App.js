@@ -17,6 +17,7 @@ import PublicRoute from './components/PublicRoute';
 import Results from './pages/employees/Results';
 import AddResult from './pages/employees/AddResult';
 import EditResult from './pages/employees/EditResult';
+import ResultCheck from './pages/ResultCheck';
 
 
 function App() {
@@ -28,6 +29,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/result/:resultId' element={<ResultCheck />} />
+
           <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
           <Route path="/register" element={<Register />} />
           <Route path="/employee" element={<ProtectedRoute><EmployeeHome /></ProtectedRoute>} />

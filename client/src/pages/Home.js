@@ -1,14 +1,79 @@
-import React from 'react'
-import {useSelector} from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { Col, Row, Table } from 'antd';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { HideLoading, ShowLoading } from '../redux/alerts';
+import toast from 'react-hot-toast';
 
-const Home = () => {
 
-  const {name} = useSelector(state=>state.alert)
+function Home() {
+
+  const [results, setResults] = useState([])
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+
+  const getResults = async (values) => {
+    try {
+      dispatch(ShowLoading());
+      const response = await axios.get(process.env.REACT_APP_BASE_URL + "/api/results/get-all-results",
+        {
+          headers: {
+            Authorization: `Bearer-${localStorage.getItem("token")}`
+          }
+        });
+
+      dispatch(HideLoading())
+      if (response.data.success) {
+        setResults(response.data.data);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+      dispatch(HideLoading());
+      toast.error(error.message);
+    }
+
+  };
+  useEffect(() => {
+    if (results.length == 0) {
+      getResults();
+    }
+
+  }, [])
+
   return (
-    <div>Home
-      <h1>{name}</h1>
+    <div className='p-5'>
+      <div className="header d-flex justify-content-between align-items-center">
+        <h1 className='text-white'>
+          {" "}
+          <b className='secondary-text'>Computer Science Department </b>
+          Results {" "}
+        </h1>
+
+      </div>
+      <h1 className='text-large mt-5'>Check Your Results Here....</h1>
+      <Row>
+        {
+          results.map((result) => {
+            return (
+              <Col span={8}>
+                <div className='card p-2 cursor-pointer primary-border'
+                  onClick={() => {
+                    navigate(`/result/${result.id}`)
+                  }}
+                >
+                  <h1 className='text-medium'>{result.examination}</h1>
+                </div>
+              </Col>
+            );
+          })
+        }
+      </Row>
     </div>
   )
 }
 
 export default Home
+

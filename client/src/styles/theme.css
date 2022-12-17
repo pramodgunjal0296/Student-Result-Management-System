@@ -60,6 +60,9 @@
 .w-200{
     width:200px;
 }   
+.w-110{
+    width:110px;
+}
 /*cards*/
 .card-md{
     box-shadow: 0 0 1px rgba(0,0,0,0.1);

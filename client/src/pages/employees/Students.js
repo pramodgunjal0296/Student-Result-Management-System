@@ -24,6 +24,7 @@ function Students() {
             Authorization:`Bearer-${localStorage.getItem("token")}`
         }
       });
+      console.log(response)
       dispatch(HideLoading())
       if(response.data.success){
         setStudents(response.data.data);
@@ -109,6 +110,7 @@ function Students() {
       )
     }, 
   ];
+  console.log("Students:",students)
   return (
     <div>
       <PageTitle title="Students"/>
