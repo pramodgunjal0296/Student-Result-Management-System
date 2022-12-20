@@ -32,14 +32,16 @@ router.post("/add-student", async (req, res) => {
 // get all students
 router.get("/get-all-students", async (req, res) => {
   try {
-    const students = await Student.find({ class: req.query.class });
-    
+    let condition = {};
+    if (req.query.class) {
+      condition = { class: req.query.class };
+    }
+    const students = await Student.find(condition);
     res.status(200).send({
       message: "Student Fetched Successfully",
       success: true,
       data: students,
     });
-    console.log(res)
   } catch (error) {
     console.log(error.message);
     res.status(500).send({
