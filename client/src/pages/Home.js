@@ -62,7 +62,7 @@ function Home() {
                 <div
                   className="card p-2 cursor-pointer primary-border"
                   onClick={() => {
-                    navigate(`/result/${result.id}`);
+                    navigate(`/result/${result._id}`);
                   }}
                 >
                   <h1 className="text-medium">{result.examination}</h1>

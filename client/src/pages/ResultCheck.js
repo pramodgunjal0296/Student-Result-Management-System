@@ -50,6 +50,17 @@ const ResultCheck = () => {
           Results{" "}
         </h1>
       </div>
+      {result && (
+          <div className="mt-3 p-3">
+          <h1 className="text-small">Examination :{result.examination}</h1>
+          <h1 className="text-small">Class : {result.class} </h1>
+          </div>
+        )}
+        <hr />
+        <div className="d-flex gap-3 p-3">
+           <input type='text' placeholder='Roll No' className="w-300"/>
+           <button className="primary px-5 text-white">Get Result</button>
+        </div>
     </div>
   );
 };

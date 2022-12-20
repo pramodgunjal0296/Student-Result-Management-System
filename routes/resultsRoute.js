@@ -66,7 +66,7 @@ router.get("/get-result/:resultId", async (req, res) => {
 // add student result
 router.post("/save-student-result", authMiddleware, async (req, res) => {
   try {
-    const student = await Student.findOne({_id:req.body.studentId});
+    const student = await Student.findOne({ _id: req.body.studentId });
     console.log(student, "student :");
     if (!student) {
       return res.status(200).send({
@@ -85,27 +85,19 @@ router.post("/save-student-result", authMiddleware, async (req, res) => {
           return {
             ...result,
             obtainedMarks: req.body.obtainedMarks,
+            verdict:req.body.verdict,
           };
         }
         return result;
       });
     } else {
-      newResults = [
-        ...existingResults,
-        {
-          obtainedMarks: req.body.obtainedMarks,
-          resultId: req.body.resultId,
-          examination: req.body.examination,
-        },
-      ];
+      newResults = [...existingResults, req.body];
     }
-
-    const updatedStudent = await Student.findByIdAndUpdate(
-      req.body.studentId,
+    const updatedStudent = await Student.findByIdAndUpdate(req.body.studentId,
       {
         results: newResults,
       },
-      { new: true }
+      { new: true } 
     );
     res.status(200).send({
       message: "Result Added Successfully",
