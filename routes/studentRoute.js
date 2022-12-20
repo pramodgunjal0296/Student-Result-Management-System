@@ -37,6 +37,7 @@ router.get("/get-all-students", async (req, res) => {
       condition = { class: req.query.class };
     }
     const students = await Student.find(condition);
+    console.log(students,"student in get all students : ");
     res.status(200).send({
       message: "Student Fetched Successfully",
       success: true,
