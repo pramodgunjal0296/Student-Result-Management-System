@@ -180,7 +180,6 @@ function EditResult() {
                 </tr>
               </thead>
               <tbody>
-                {/* {Object.keys(result).length.length !== 0 && */}
                 {result.subjects.map((subject, index) => (
                   <tr key={index}>
                     <td>{subject.subjectName}</td>

@@ -2,7 +2,7 @@ const express = require("express");
 const authMiddleware = require("../middlewares/authMiddleware");
 const router = express.Router();
 const Result = require("../models/resultsModel");
-const Student = require("../models/resultsModel");
+const Student = require("../models/studentModel");
 
 // add new result
 router.post("/add-result", async (req, res) => {
@@ -66,7 +66,7 @@ router.get("/get-result/:resultId", async (req, res) => {
 // add student result
 router.post("/save-student-result", authMiddleware, async (req, res) => {
   try {
-    const student = await Student.findById(req.body.studentId);
+    const student = await Student.findOne({_id:req.body.studentId});
     console.log(student, "student :");
     if (!student) {
       return res.status(200).send({
