@@ -50,7 +50,7 @@ router.get("/get-all-results", async (req, res) => {
 router.get("/get-result/:resultId", async (req, res) => {
   try {
     const result = await Result.findOne({ _id: req.params.resultId });
-    console.log(res.data);
+    console.log(result,"result :");
     res.status(200).send({
       message: "Result retrieved successfully",
       success: true,
@@ -110,6 +110,44 @@ router.post("/save-student-result", authMiddleware, async (req, res) => {
       success: false,
     });
   }
+});
+// add student result by id
+router.get("/get-student-result",async(req,res)=>{
+     try{
+      const student= await Student.findOne({
+        rollNo:req.body.studentId,
+      });
+      if(!student){
+        return res.status(200).send({
+          message:"Student not found",
+          success:false,
+        })
+      }
+      const resultExists = student.results.find(
+        (result)=>result.resultId === req.body.resultId
+      );
+      if(!resultExists){
+        return res.status(200).send({
+          message: "Result not found",
+          success:false,
+        })  
+      }
+      res.status(200).send({
+        message:"Resullt retrieved successFully",
+        success:true,
+        data:{
+          ...resultExists,
+          studentId:student._id,
+          firstName:student.firstName,
+          lastName:student.lastName,
+        },
+      })
+     } catch(error){
+      res.status(500).send({
+        message:error.message,
+        success:false,
+      })
+     }
 });
 // delete result by id
 router.delete("/delete-result/:resultId", authMiddleware, async (req, res) => {
