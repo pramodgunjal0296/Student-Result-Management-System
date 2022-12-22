@@ -24,8 +24,7 @@ const ResultCheck = () => {
             Authorization: `Bearer-${localStorage.getItem("token")}`,
           },
         }
-      );
-     
+      ); 
       dispatch(HideLoading());
      
       if (response.data.success) {
@@ -56,7 +55,7 @@ const ResultCheck = () => {
           },
         }
       );
-      console.log("response in  student result", response)
+      console.log("response in  student result", response.data)
       dispatch(HideLoading());
       if (response.data.success) {
         setStudentResult(response.data.data);
@@ -123,7 +122,7 @@ const ResultCheck = () => {
                   <td>{subject.subjectName}</td>
                   <td>{subject.totalMarks}</td>
                   <td>
-                    {studentResult.obtainedMarks[subject?.subjectName] || 0}
+                    {/* {studentResult.obtainedMarks[subject?.subjectName] || 0} */}
                   </td>
                 </tr>
               ))}

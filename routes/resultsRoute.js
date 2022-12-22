@@ -50,7 +50,7 @@ router.get("/get-all-results", async (req, res) => {
 router.get("/get-result/:resultId", async (req, res) => {
   try {
     const result = await Result.findOne({ _id: req.params.resultId });
-    console.log(result,"result :");
+    console.log(result, "result :");
     res.status(200).send({
       message: "Result retrieved successfully",
       success: true,
@@ -85,7 +85,7 @@ router.post("/save-student-result", authMiddleware, async (req, res) => {
           return {
             ...result,
             obtainedMarks: req.body.obtainedMarks,
-            verdict:req.body.verdict,
+            verdict: req.body.verdict,
           };
         }
         return result;
@@ -97,7 +97,7 @@ router.post("/save-student-result", authMiddleware, async (req, res) => {
       {
         results: newResults,
       },
-      { new: true } 
+      { new: true }
     );
     res.status(200).send({
       message: "Result Added Successfully",
@@ -112,42 +112,65 @@ router.post("/save-student-result", authMiddleware, async (req, res) => {
   }
 });
 // add student result by id
-router.get("/get-student-result",async(req,res)=>{
-     try{
-      const student= await Student.findOne({
-        rollNo:req.body.studentId,
+router.get("/get-student-result", async (req, res) => {
+  try {
+    let condition = {};
+    if (req.query.studentId) {
+      condition = { studentId: req.query.studentId };
+    }
+    const student = await Student.findOne(condition);
+    console.log(student)
+    if (!student) {
+      return res.status(200).send({
+        message: "Student not found",
+        success: false,
+      })
+    }
+    let newResults = student.results;
+    const existingResults = student.results;
+    
+    const resultExists = student.results.find(
+      (result) => result.resultId === req.body.resultId
+    );
+    if (resultExists) {
+      newResults = existingResults.map((result) => {
+        if (result.resultId === req.body.resultId) {
+          return {
+            ...result,
+            obtainedMarks: req.body.obtainedMarks,
+            verdict: req.body.verdict,
+          };
+        }
+        return result;
       });
-      if(!student){
-        return res.status(200).send({
-          message:"Student not found",
-          success:false,
-        })
-      }
-      const resultExists = student.results.find(
-        (result)=>result.resultId === req.body.resultId
-      );
-      if(!resultExists){
-        return res.status(200).send({
-          message: "Result not found",
-          success:false,
-        })  
-      }
-      res.status(200).send({
-        message:"Resullt retrieved successFully",
-        success:true,
-        data:{
-          ...resultExists,
-          studentId:student._id,
-          firstName:student.firstName,
-          lastName:student.lastName,
-        },
+    }
+    else{
+      newResults = [...existingResults, req.body];
+    }
+    if (!resultExists) {
+      return res.status(200).send({
+        message: "Result not found",
+        success: false,
       })
-     } catch(error){
-      res.status(500).send({
-        message:error.message,
-        success:false,
-      })
-     }
+    }
+    res.status(200).send({
+      message: "Resullt retrieved successFully",
+      success: true,
+      data: {
+         ...resultExists,
+        studentId: student._id,
+        firstName: student.firstName,
+        lastName: student.lastName,
+      },
+    })
+
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({
+      message: error.message,
+      success: false,
+    });
+  }
 });
 // delete result by id
 router.delete("/delete-result/:resultId", authMiddleware, async (req, res) => {

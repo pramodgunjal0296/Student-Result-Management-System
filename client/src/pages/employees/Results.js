@@ -10,9 +10,17 @@ import { AiFillDelete } from "react-icons/ai";
 import { BsFillPencilFill } from "react-icons/bs";
 
 function Results() {
+  const [value, setValue] = useState("");
   const [results, setResults] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+
+  const onSearch = (searchTerm) => {
+    setValue(searchTerm);
+    //our api to fetch the search result
+    console.log("Search", searchTerm);
+  };
 
   const getResults = async (values) => {
     try {
@@ -112,15 +120,41 @@ function Results() {
         <input
           type="text "
           className="w-300 px-2"
+          value={value}
           placeholder="search Results"
+          onChange={(event) => setValue(event.target.value)}
+          onDoubleClick={() => onSearch(value)}
         />
+                <div className="dropdown">
+          {results
+            .filter((item) => {
+              const searchTerm = value;
+              const fullName = item.examination.toLowerCase();
+
+              return (
+                searchTerm &&
+                fullName.startsWith(searchTerm) &&
+                fullName !== searchTerm
+              );
+            }).slice(0,5)
+            .map((item) => (
+              <div
+                key={item.examination}
+                onClick={() => onSearch(item.fullName)}
+                className="dropdown-row"
+              >
+                {item.examination}
+              </div>
+            ))}
+        </div>
+      
         <button
           className="primary text-white px-3"
           onClick={() => {
             navigate("/employee/results/add");
           }}
         >
-          Add Result{" "}
+          Add Result {" "}
         </button>
       </div>
       <Table columns={column} dataSource={results} />
