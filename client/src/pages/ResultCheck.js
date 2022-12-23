@@ -24,11 +24,10 @@ const ResultCheck = () => {
             Authorization: `Bearer-${localStorage.getItem("token")}`,
           },
         }
-      ); 
+      );
       dispatch(HideLoading());
-     
+
       if (response.data.success) {
-        console.log("response in result after dispatch:", response.data.data)
         setResult(response.data.data);
       } else {
         toast.error(response.data.message);
@@ -44,11 +43,7 @@ const ResultCheck = () => {
       dispatch(ShowLoading());
       const response = await axios.get(
         process.env.REACT_APP_BASE_URL +
-        `/api/results/get-student-result`,
-        {
-          rollNo: rollNo,
-          resultId: params.resultId,
-        },
+        `/api/results/get-student-result/${params.resultId}`,
         {
           headers: {
             Authorization: `Bearer-${localStorage.getItem("token")}`,
@@ -72,7 +67,7 @@ const ResultCheck = () => {
   useEffect(() => {
     if (result) {
       getResult();
-   
+
     }
   }, []);
 
@@ -104,10 +99,10 @@ const ResultCheck = () => {
         <div className="card p-3">
           <div>
             <h1 className="text-medium">
-             <b>Name:{studentResult.firstName} {studentResult.lastName}</b> 
+              <b>Name:{studentResult.firstName} {studentResult.lastName}</b>
             </h1>
           </div>
-            <hr />
+          <hr />
           <table className="table table-bordered w-50">
             <thead>
               <tr>
@@ -117,7 +112,7 @@ const ResultCheck = () => {
               </tr>
             </thead>
             <tbody>
-              {result.subjects.map((subject,index) => (
+              {result.subjects.map((subject, index) => (
                 <tr key={index}>
                   <td>{subject.subjectName}</td>
                   <td>{subject.totalMarks}</td>
@@ -129,10 +124,10 @@ const ResultCheck = () => {
             </tbody>
           </table>
           <div style={{
-            backgroundColor:"3A4F7A",
-            width:'max-content'
-          }} 
-          className='p-3'
+            backgroundColor: "3A4F7A",
+            width: 'max-content'
+          }}
+            className='p-3'
           >
             <h1 className="text-white">VERDICT : {studentResult?.verdict?.toUpperCase()}</h1>
           </div>

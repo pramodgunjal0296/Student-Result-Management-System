@@ -233,7 +233,6 @@ function EditResult() {
                 const resultExists = record.results.find(
                   (result) => result.resultId === params.resultId
                 );
-                console.log(resultExists)
                 if (resultExists) {
                   setObtainedMarks(resultExists.obtainedMarks);
                 }

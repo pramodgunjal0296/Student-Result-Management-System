@@ -19,7 +19,6 @@ function Results() {
   const onSearch = (searchTerm) => {
     setValue(searchTerm);
     //our api to fetch the search result
-    console.log("Search", searchTerm);
   };
 
   const getResults = async (values) => {
@@ -51,7 +50,7 @@ function Results() {
       dispatch(ShowLoading());
       const response = await axios.delete(
         process.env.REACT_APP_BASE_URL +
-          `/api/results/delete-result/${resultId}`,
+        `/api/results/delete-result/${resultId}`,
         {
           headers: {
             Authorization: `Bearer-${localStorage.getItem("token")}`,
@@ -125,7 +124,7 @@ function Results() {
           onChange={(event) => setValue(event.target.value)}
           onDoubleClick={() => onSearch(value)}
         />
-                <div className="dropdown">
+        <div className="dropdown">
           {results
             .filter((item) => {
               const searchTerm = value;
@@ -136,7 +135,7 @@ function Results() {
                 fullName.startsWith(searchTerm) &&
                 fullName !== searchTerm
               );
-            }).slice(0,5)
+            }).slice(0, 5)
             .map((item) => (
               <div
                 key={item.examination}
@@ -147,7 +146,7 @@ function Results() {
               </div>
             ))}
         </div>
-      
+
         <button
           className="primary text-white px-3"
           onClick={() => {

@@ -33,7 +33,6 @@ router.post("/add-result", async (req, res) => {
 router.get("/get-all-results", async (req, res) => {
   try {
     const results = await Result.find();
-    console.log(results, "result");
     res.status(200).send({
       message: "Results Retrieved SuccessFully",
       success: true,
@@ -50,7 +49,6 @@ router.get("/get-all-results", async (req, res) => {
 router.get("/get-result/:resultId", async (req, res) => {
   try {
     const result = await Result.findOne({ _id: req.params.resultId });
-    console.log(result, "result :");
     res.status(200).send({
       message: "Result retrieved successfully",
       success: true,
@@ -67,7 +65,6 @@ router.get("/get-result/:resultId", async (req, res) => {
 router.post("/save-student-result", authMiddleware, async (req, res) => {
   try {
     const student = await Student.findOne({ _id: req.body.studentId });
-    console.log(student, "student :");
     if (!student) {
       return res.status(200).send({
         message: "Student not found",
@@ -112,14 +109,13 @@ router.post("/save-student-result", authMiddleware, async (req, res) => {
   }
 });
 // add student result by id
-router.get("/get-student-result", async (req, res) => {
+router.get("/get-student-result/:resultId", async (req, res) => {
   try {
     let condition = {};
     if (req.query.studentId) {
       condition = { studentId: req.query.studentId };
     }
     const student = await Student.findOne(condition);
-    console.log(student)
     if (!student) {
       return res.status(200).send({
         message: "Student not found",
@@ -128,9 +124,9 @@ router.get("/get-student-result", async (req, res) => {
     }
     let newResults = student.results;
     const existingResults = student.results;
-    
+
     const resultExists = student.results.find(
-      (result) => result.resultId === req.body.resultId
+      (result) => result.resultId === req.params.resultId
     );
     if (resultExists) {
       newResults = existingResults.map((result) => {
@@ -144,7 +140,7 @@ router.get("/get-student-result", async (req, res) => {
         return result;
       });
     }
-    else{
+    else {
       newResults = [...existingResults, req.body];
     }
     if (!resultExists) {
@@ -157,7 +153,7 @@ router.get("/get-student-result", async (req, res) => {
       message: "Resullt retrieved successFully",
       success: true,
       data: {
-         ...resultExists,
+        ...resultExists,
         studentId: student._id,
         firstName: student.firstName,
         lastName: student.lastName,
