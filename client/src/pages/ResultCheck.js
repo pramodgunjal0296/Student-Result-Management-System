@@ -17,7 +17,7 @@ const ResultCheck = () => {
       dispatch(ShowLoading());
       const response = await axios.get(
         process.env.REACT_APP_BASE_URL +
-          `/api/results/get-result/${params.resultId}`,
+        `/api/results/get-result/${params.resultId}`,
         values,
         {
           headers: {
@@ -45,8 +45,8 @@ const ResultCheck = () => {
 
       const response = await axios.post(
         process.env.REACT_APP_BASE_URL +
-          // `/api/results/get-student-result/${params.resultId}`,
-          `/api/results/get-student-result`,
+        // `/api/results/get-student-result/${params.resultId}`,
+        `/api/results/get-student-result`,
         { rollNo: rollNo, resultId: params.resultId },
         {
           headers: {
@@ -54,7 +54,7 @@ const ResultCheck = () => {
           },
         }
       );
-      console.log("response in  student result", response.data);
+      console.log("response in student result", response.data);
       dispatch(HideLoading());
       if (response.data.success) {
         setStudentResult(response.data.data);

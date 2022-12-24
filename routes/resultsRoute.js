@@ -113,8 +113,8 @@ router.post("/save-student-result", authMiddleware, async (req, res) => {
 router.post("/get-student-result", async (req, res) => {
   try {
     let condition = {};
-    if (req.query.studentId) {
-      condition = { studentId: req.query.studentId };
+    if (req.body.rollNo) {
+      condition = { rollNo: req.body.rollNo };
     }
     const student = await Student.findOne(condition);
     console.log("student:", student);
