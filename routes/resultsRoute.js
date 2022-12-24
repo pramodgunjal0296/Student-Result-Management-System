@@ -90,7 +90,8 @@ router.post("/save-student-result", authMiddleware, async (req, res) => {
     } else {
       newResults = [...existingResults, req.body];
     }
-    const updatedStudent = await Student.findByIdAndUpdate(req.body.studentId,
+    const updatedStudent = await Student.findByIdAndUpdate(
+      req.body.studentId,
       {
         results: newResults,
       },
@@ -109,24 +110,26 @@ router.post("/save-student-result", authMiddleware, async (req, res) => {
   }
 });
 // add student result by id
-router.get("/get-student-result/:resultId", async (req, res) => {
+router.post("/get-student-result", async (req, res) => {
   try {
     let condition = {};
     if (req.query.studentId) {
       condition = { studentId: req.query.studentId };
     }
     const student = await Student.findOne(condition);
+    console.log("student:", student);
     if (!student) {
       return res.status(200).send({
         message: "Student not found",
         success: false,
-      })
+      });
     }
     let newResults = student.results;
     const existingResults = student.results;
 
     const resultExists = student.results.find(
-      (result) => result.resultId === req.params.resultId
+      (result) => result.resultId === req.body.resultId
+      // (result) => result.resultId === req.params.resultId
     );
     if (resultExists) {
       newResults = existingResults.map((result) => {
@@ -139,15 +142,14 @@ router.get("/get-student-result/:resultId", async (req, res) => {
         }
         return result;
       });
-    }
-    else {
+    } else {
       newResults = [...existingResults, req.body];
     }
     if (!resultExists) {
       return res.status(200).send({
         message: "Result not found",
         success: false,
-      })
+      });
     }
     res.status(200).send({
       message: "Resullt retrieved successFully",
@@ -158,8 +160,7 @@ router.get("/get-student-result/:resultId", async (req, res) => {
         firstName: student.firstName,
         lastName: student.lastName,
       },
-    })
-
+    });
   } catch (error) {
     console.log(error.message);
     res.status(500).send({
