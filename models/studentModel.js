@@ -24,9 +24,9 @@ const StudentSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  results:{
-    type:Array,
-    required:true,
+  results: {
+    type: Array,
+    required: true,
   },
 });
 module.exports = mongoose.model("students", StudentSchema);

@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { HideLoading, ShowLoading } from "../redux/alerts";
 
 const ResultCheck = () => {
+  const navigate = useNavigate();
   const [rollNo, setRollNo] = useState("");
   const [studentResult, setStudentResult] = useState(null);
   const [result, setResult] = useState([]);
@@ -17,7 +18,7 @@ const ResultCheck = () => {
       dispatch(ShowLoading());
       const response = await axios.get(
         process.env.REACT_APP_BASE_URL +
-        `/api/results/get-result/${params.resultId}`,
+          `/api/results/get-result/${params.resultId}`,
         values,
         {
           headers: {
@@ -45,8 +46,8 @@ const ResultCheck = () => {
 
       const response = await axios.post(
         process.env.REACT_APP_BASE_URL +
-        // `/api/results/get-student-result/${params.resultId}`,
-        `/api/results/get-student-result`,
+          // `/api/results/get-student-result/${params.resultId}`,
+          `/api/results/get-student-result`,
         { rollNo: rollNo, resultId: params.resultId },
         {
           headers: {
@@ -72,7 +73,20 @@ const ResultCheck = () => {
       getResult();
     }
   }, []);
+  const getPercentage = () => {
+    let totalMarks = 0;
+    let obtainedMarks = 0;
+    result.subjects.forEach((subject) => {
+      totalMarks += Number(subject.totalMarks);
+    });
+    console.log(totalMarks);
+    Object.keys(studentResult.obtainedMarks).forEach((key) => {
+      obtainedMarks += Number(studentResult.obtainedMarks[key]);
+    });
+    console.log(obtainedMarks);
 
+    return (obtainedMarks / totalMarks) * 100;
+  };
   return (
     <div className="p-5">
       <div className="header d-flex justify-content-between align-items-center">
@@ -81,6 +95,16 @@ const ResultCheck = () => {
           <b className="secondary-text">Computer Science Department </b>
           Results{" "}
         </h1>
+        <div>
+          <h1
+            className="text-white text-small cursor-pointer underline"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            Login
+          </h1>
+        </div>
       </div>
       {result && (
         <div className="mt-3 p-3 card">
@@ -138,13 +162,14 @@ const ResultCheck = () => {
           </table>
           <div
             style={{
-              backgroundColor: "3A4F7A",
+              backgroundColor: "#002B5B",
               width: "max-content",
             }}
-            className="p-3"
+            className="p-3 w-50"
           >
-            <h1 className="text-white">
-              VERDICT : {studentResult?.verdict?.toUpperCase()}
+            <h1 className="text-white text-center text-medium">
+              Percentage : {getPercentage().toFixed(2)}% , Verdict :{" "}
+              {studentResult?.verdict?.toUpperCase()}
             </h1>
           </div>
         </div>

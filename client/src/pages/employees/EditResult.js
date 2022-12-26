@@ -32,7 +32,7 @@ function EditResult() {
       );
       dispatch(HideLoading());
       if (response.data.success) {
-        setResult(response.data.data);  
+        setResult(response.data.data);
         const tempObtainedMarks = {};
         response.data.data.subjects.forEach((subject) => {
           tempObtainedMarks[subject.subjectName] = 0;
@@ -73,16 +73,17 @@ function EditResult() {
     }
   };
   const saveStudentResult = async () => {
-    let verdict="pass";
-    Object.keys(obtainedMarks).forEach((key)=>{
-
+    let verdict = "pass";
+    Object.keys(obtainedMarks).forEach((key) => {
       const subjectName = key;
-      const marks =obtainedMarks[key];
-      const passMarks = result.subjects.find(subject =>subject.subjectName === subjectName).passMarks;
-       if(Number(marks)< Number(passMarks)){
-        verdict = 'fail';
-       }
-       return;
+      const marks = obtainedMarks[key];
+      const passMarks = result.subjects.find(
+        (subject) => subject.subjectName === subjectName
+      ).passMarks;
+      if (Number(marks) < Number(passMarks)) {
+        verdict = "fail";
+      }
+      return;
     });
     try {
       dispatch(ShowLoading());
@@ -93,7 +94,7 @@ function EditResult() {
           examination: result.examination,
           studentId: selectedStudent._id,
           obtainedMarks: obtainedMarks,
-          verdict,    
+          verdict,
         },
         {
           headers: {
@@ -180,7 +181,7 @@ function EditResult() {
                   getStudents();
                 }}
               >
-                <GrClose /> 
+                <GrClose />
               </span>
             </div>
             <table className="table">

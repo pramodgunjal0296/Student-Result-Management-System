@@ -43,18 +43,34 @@ function Home() {
 
   return (
     <div className="p-5">
-      <div className="header d-flex justify-content-between align-items-center">
+      <div className="header d-flex justify-content-between align-items-center py-3">
         <h1 className="text-white">
           {" "}
           <b className="secondary-text">Computer Science Department </b>
           Results{" "}
         </h1>
+        <div>
+          <h1
+            className="text-white text-small cursor-pointer underline"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            Login
+          </h1>
+        </div>
       </div>
 
       {results.length > 0 ? (
-        <Row>
+        <Row gutter={(20, 20)}>
           <Col span={24}>
-            <h1 className="text-large mt-5">Check Your Results Here....</h1>
+            <h1 className="text-large mt-3 ">
+              Welcome Guys to Check your RESULTs
+            </h1>
+            <h1 className="text-large mt-3 ">
+              Select Your Examination From Below..
+            </h1>
+            <hr />
           </Col>
           {results.map((result) => {
             return (
@@ -66,6 +82,8 @@ function Home() {
                   }}
                 >
                   <h1 className="text-medium">{result.examination}</h1>
+                  <hr />
+                  <h1 className="text-small">Class : {result.class}</h1>
                 </div>
               </Col>
             );

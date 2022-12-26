@@ -42,6 +42,12 @@ function EditStudent() {
   return (
     <div>
       <PageTitle title="Edit Student" />
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/2444/2444472.png"
+        height={100}
+        width={100}
+        className="my-3"
+      />
       {student && <StudentForm student={student} type="edit" />}
     </div>
   );
