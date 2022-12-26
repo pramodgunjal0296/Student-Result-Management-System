@@ -32,7 +32,11 @@ router.post("/add-student", async (req, res) => {
 // get all students
 router.get("/get-all-students", async (req, res) => {
   try {
-    const students = await Student.find({ class: req.query.class });
+    let condition = {};
+    if (req.query.class) {
+      condition = { class: req.query.class };
+    }
+    const students = await Student.find(condition);
     res.status(200).send({
       message: "Student Fetched Successfully",
       success: true,
@@ -46,35 +50,6 @@ router.get("/get-all-students", async (req, res) => {
     });
   }
 });
-
-// //get student by class
-// router.get('/get-result-student/:class', authMiddleware,async(req, res) => {
-//     try {
-//         const student =await Student.findOne({
-//             class:req.params.class,
-//         });
-//         if (!student) {
-//             res.send({
-//                 message:"Student not found",
-//                 success:false,
-//             })
-//         }
-//         res.status(200).send({
-//             message:"Student Fetched Successfully",
-//             success:true,
-//             data:student,
-//         });
-
-//     } catch (error) {
-//         console.log(error.message)
-//         res.status(500).send({
-//             message:error.message,
-//             success:false,
-//         });
-
-//     }
-
-// });
 
 //get student by roll no for edit
 router.get("/get-student/:rollNo", authMiddleware, async (req, res) => {
@@ -116,7 +91,6 @@ router.post("/update-student/:rollNo", authMiddleware, async (req, res) => {
         success: false,
       });
     }
-    console.log(res);
     res.status(200).send({
       message: "Student updated Successfully",
       success: true,

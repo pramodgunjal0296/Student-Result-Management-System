@@ -24,6 +24,7 @@ function ResultForm() {
           },
         }
       );
+
       dispatch(HideLoading());
       if (response.data.success) {
         toast.success(response.data.message);
@@ -59,7 +60,7 @@ function ResultForm() {
           </Col>
         </Row>
         <hr />
-        <Form.List name="name">
+        <Form.List name="subjects">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (

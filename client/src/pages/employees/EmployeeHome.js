@@ -1,32 +1,46 @@
-import React from 'react';
-import {Row,Col} from 'antd';
+import React from "react";
+import { Row, Col } from "antd";
 // import '../../styles/theme.css'
-import {useNavigate} from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
 
 function EmployeeHome() {
-
-  const navigate= useNavigate();
-  return <div className='h-100 d-flex justify-content-center align-items-center'>
-   <Row gutter={[10,10]}>
-    <Col span={12}>
-      <div className='p-5 secondary-border card w-300 cursor-pointer' onClick={()=>{
-        navigate("/employee/students");
-      }}>
-        <h1>Student</h1>
-      </div>
-    </Col>
-    <Col span={12}>
-      <div className='p-5 secondary-border card w-300 cursor-pointer'onClick={()=>{
-         navigate("/employee/results");
-      }}>
-        <h1>Results</h1>
-      </div>
-    </Col>
-
-   </Row>
-  </div> ;
-  
+  const navigate = useNavigate();
+  return (
+    <div className="h-100 d-flex justify-content-center align-items-center">
+      <Row gutter={[20, 20]}>
+        <Col span={12}>
+          <div
+            className="p-5 primary-border card w-300 cursor-pointer d-flex align-items-center justify-content-center gap-3"
+            onClick={() => {
+              navigate("/employee/students");
+            }}
+          >
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/3135/3135810.png"
+              height={70}
+              width={100}
+            />
+            <h1>Students</h1>
+          </div>
+        </Col>
+        <Col span={12}>
+          <div
+            className="p-5 primary-border card w-300 cursor-pointer d-flex align-items-center justify-content-center gap-3"
+            onClick={() => {
+              navigate("/employee/results");
+            }}
+          >
+            <img
+              src="https://t4.ftcdn.net/jpg/02/63/41/11/240_F_263411108_0id5TAhaImsxDxnxIIo69Tkl7wx5aDJQ.jpg"
+              height={70}
+              width={100}
+            />
+            <h1>Results</h1>
+          </div>
+        </Col>
+      </Row>
+    </div>
+  );
 }
 
-export default EmployeeHome
+export default EmployeeHome;
