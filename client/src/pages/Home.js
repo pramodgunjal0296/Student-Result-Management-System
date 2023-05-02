@@ -49,6 +49,15 @@ function Home() {
           <b className="secondary-text">Computer Science Department </b>
           Results{" "}
         </h1>
+<<<<<<< HEAD
+        <button
+          className="text-gray rounded"
+          onClick={() => navigate("/login")}
+        >
+          {" "}
+          Teacher Login{" "}
+        </button>
+=======
         <div>
           <h1
             className="text-white text-small cursor-pointer underline"
@@ -59,6 +68,7 @@ function Home() {
             Login
           </h1>
         </div>
+>>>>>>> bc39e2589e51f4926fc0780ef6bb9691add794eb
       </div>
 
       {results.length > 0 ? (
