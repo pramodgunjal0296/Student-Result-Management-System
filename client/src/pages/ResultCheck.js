@@ -1,11 +1,15 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { HideLoading, ShowLoading } from "../redux/alerts";
 
 const ResultCheck = () => {
+<<<<<<< HEAD
+=======
+  const navigate = useNavigate();
+>>>>>>> bc39e2589e51f4926fc0780ef6bb9691add794eb
   const [rollNo, setRollNo] = useState("");
   const [studentResult, setStudentResult] = useState(null);
   const [result, setResult] = useState([]);
@@ -41,16 +45,28 @@ const ResultCheck = () => {
   const getStudentResult = async (values) => {
     try {
       dispatch(ShowLoading());
-      const response = await axios.get(
+      // const response = await axios.get(
+
+      const response = await axios.post(
         process.env.REACT_APP_BASE_URL +
+<<<<<<< HEAD
           `/api/results/get-student-result/${params.resultId}`,
+=======
+          // `/api/results/get-student-result/${params.resultId}`,
+          `/api/results/get-student-result`,
+        { rollNo: rollNo, resultId: params.resultId },
+>>>>>>> bc39e2589e51f4926fc0780ef6bb9691add794eb
         {
           headers: {
             Authorization: `Bearer-${localStorage.getItem("token")}`,
           },
         }
       );
+<<<<<<< HEAD
       console.log("response in  student result", response.data);
+=======
+      console.log("response in student result", response.data);
+>>>>>>> bc39e2589e51f4926fc0780ef6bb9691add794eb
       dispatch(HideLoading());
       if (response.data.success) {
         setStudentResult(response.data.data);
@@ -58,7 +74,6 @@ const ResultCheck = () => {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error.message);
       dispatch(HideLoading());
       toast.error(error.message);
     }
@@ -69,7 +84,20 @@ const ResultCheck = () => {
       getResult();
     }
   }, []);
+  const getPercentage = () => {
+    let totalMarks = 0;
+    let obtainedMarks = 0;
+    result.subjects.forEach((subject) => {
+      totalMarks += Number(subject.totalMarks);
+    });
+    console.log(totalMarks);
+    Object.keys(studentResult.obtainedMarks).forEach((key) => {
+      obtainedMarks += Number(studentResult.obtainedMarks[key]);
+    });
+    console.log(obtainedMarks);
 
+    return (obtainedMarks / totalMarks) * 100;
+  };
   return (
     <div className="p-5">
       <div className="header d-flex justify-content-between align-items-center">
@@ -78,6 +106,16 @@ const ResultCheck = () => {
           <b className="secondary-text">Computer Science Department </b>
           Results{" "}
         </h1>
+        <div>
+          <h1
+            className="text-white text-small cursor-pointer underline"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            Login
+          </h1>
+        </div>
       </div>
       {result && (
         <div className="mt-3 p-3 card">
@@ -135,6 +173,7 @@ const ResultCheck = () => {
           </table>
           <div
             style={{
+<<<<<<< HEAD
               backgroundColor: "3A4F7A",
               width: "max-content",
             }}
@@ -142,6 +181,16 @@ const ResultCheck = () => {
           >
             <h1 className="text-black">
               VERDICT : {studentResult?.verdict?.toUpperCase()}
+=======
+              backgroundColor: "#002B5B",
+              width: "max-content",
+            }}
+            className="p-3 w-50"
+          >
+            <h1 className="text-white text-center text-medium">
+              Percentage : {getPercentage().toFixed(2)}% , Verdict :{" "}
+              {studentResult?.verdict?.toUpperCase()}
+>>>>>>> bc39e2589e51f4926fc0780ef6bb9691add794eb
             </h1>
           </div>
         </div>
