@@ -49,6 +49,13 @@ function Home() {
           <b className="secondary-text">Computer Science Department </b>
           Results{" "}
         </h1>
+        <button
+          className="text-gray rounded"
+          onClick={() => navigate("/login")}
+        >
+          {" "}
+          Teacher Login{" "}
+        </button>
       </div>
 
       {results.length > 0 ? (

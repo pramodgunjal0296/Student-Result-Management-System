@@ -6,8 +6,8 @@ import { useDispatch } from "react-redux";
 import { HideLoading, ShowLoading } from "../redux/alerts";
 
 const ResultCheck = () => {
-  const [rollNo, setRollNo] = useState('');
-  const [studentResult, setStudentResult] = useState(null)
+  const [rollNo, setRollNo] = useState("");
+  const [studentResult, setStudentResult] = useState(null);
   const [result, setResult] = useState([]);
   const dispatch = useDispatch();
   const params = useParams();
@@ -17,7 +17,7 @@ const ResultCheck = () => {
       dispatch(ShowLoading());
       const response = await axios.get(
         process.env.REACT_APP_BASE_URL +
-        `/api/results/get-result/${params.resultId}`,
+          `/api/results/get-result/${params.resultId}`,
         values,
         {
           headers: {
@@ -43,14 +43,14 @@ const ResultCheck = () => {
       dispatch(ShowLoading());
       const response = await axios.get(
         process.env.REACT_APP_BASE_URL +
-        `/api/results/get-student-result/${params.resultId}`,
+          `/api/results/get-student-result/${params.resultId}`,
         {
           headers: {
             Authorization: `Bearer-${localStorage.getItem("token")}`,
           },
         }
       );
-      console.log("response in  student result", response.data)
+      console.log("response in  student result", response.data);
       dispatch(HideLoading());
       if (response.data.success) {
         setStudentResult(response.data.data);
@@ -67,7 +67,6 @@ const ResultCheck = () => {
   useEffect(() => {
     if (result) {
       getResult();
-
     }
   }, []);
 
@@ -88,18 +87,29 @@ const ResultCheck = () => {
       )}
       <hr />
       <div className="d-flex gap-3 p-3 card flex-row my-3">
-        <input type='text' placeholder='Roll No' className="w-300"
-          value={rollNo} onChange={(e) => setRollNo(e.target.value)}
+        <input
+          type="text"
+          placeholder="Roll No"
+          className="w-300"
+          value={rollNo}
+          onChange={(e) => setRollNo(e.target.value)}
         />
-        <button className="primary px-5 text-white" onClick={() => {
-          getStudentResult()
-        }}>Get Result</button>
+        <button
+          className="primary px-5 text-white"
+          onClick={() => {
+            getStudentResult();
+          }}
+        >
+          Get Result
+        </button>
       </div>
       {studentResult && (
         <div className="card p-3">
           <div>
             <h1 className="text-medium">
-              <b>Name:{studentResult.firstName} {studentResult.lastName}</b>
+              <b>
+                Name:{studentResult.firstName} {studentResult.lastName}
+              </b>
             </h1>
           </div>
           <hr />
@@ -117,24 +127,25 @@ const ResultCheck = () => {
                   <td>{subject.subjectName}</td>
                   <td>{subject.totalMarks}</td>
                   <td>
-                    {/* {studentResult.obtainedMarks[subject?.subjectName] || 0} */}
+                    {studentResult.obtainedMarks[subject?.subjectName] || 0}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div style={{
-            backgroundColor: "3A4F7A",
-            width: 'max-content'
-          }}
-            className='p-3'
+          <div
+            style={{
+              backgroundColor: "3A4F7A",
+              width: "max-content",
+            }}
+            className="p-3"
           >
-            <h1 className="text-white">VERDICT : {studentResult?.verdict?.toUpperCase()}</h1>
+            <h1 className="text-black">
+              VERDICT : {studentResult?.verdict?.toUpperCase()}
+            </h1>
           </div>
         </div>
-      )
-      }
-
+      )}
     </div>
   );
 };
